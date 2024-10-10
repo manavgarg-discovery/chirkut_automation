@@ -1,11 +1,13 @@
+
 from github import Github
 from github import Auth
+import github.Tag as Tag
 
 from env import Env
 
 def get_latest_central_version():
     '''
-    output: -> String : latest tag for central
+    output: -> Tag : latest tag for central
     '''
     organisation = github.get_organization("discovery-ltd")
     central_repo = organisation.get_repo("v1-gutenberg-central-app-flutter")
@@ -95,7 +97,7 @@ def is_pr_available_for(repo, pr_title):
     print("no previous pr found")
     return False
 
-def update_for_tenant(tenant_number: int):
+def update_for_tenant(tenant_number: int, latest_central_tag: Tag):
     '''
     updates tenant repository with the latest central version
 
@@ -104,10 +106,6 @@ def update_for_tenant(tenant_number: int):
     '''
     target_branch = "update_app_host"
     tenant = get_tenant(tenant_number)
-
-    latest_central_tag = get_latest_central_version()
-    pr_title = "[{}]: update host app version to {}".format(Env.ticket_number, latest_central_tag.name)
-    commit_title = "[{}]: update host app version to {}".format(Env.ticket_number, latest_central_tag.name)
 
     release_yaml = tenant.get_contents("release.yaml")
     release_yaml_content = release_yaml.decoded_content.decode()
@@ -128,11 +126,36 @@ def update_for_tenant(tenant_number: int):
         # create a PR
         tenant.create_pull(base="master", head=target_branch, title=pr_title, body="")
 
+def update_tenants(tenant_list: list, latest_central_tag: Tag):
+    '''
+    updates multiple tenants with the latest central version
+
+    input:
+        tenant_list -> list<int>: list of tenant numbers
+    '''
+
+    for tenant in tenant_list:
+        try:
+            update_for_tenant(tenant, latest_central_tag)
+        except Exception as e:
+            print("error updating tenant: ", tenant)
+            print(e)
 
 
 
-auth = Auth.Token(Env.github_token)
-github = Github(auth=auth)
-update_for_tenant(25)
-github.close()
+
+if(__name__ == "__main__"):
+    # authentication
+    auth = Auth.Token(Env.github_token)
+    github = Github(auth=auth)
+
+    # get latest central version
+    latest_central_tag = get_latest_central_version()
+    
+    pr_title = "[{}]: update host app version to {}".format(Env.ticket_number, latest_central_tag.name)
+    commit_title = "[{}]: update host app version to {}".format(Env.ticket_number, latest_central_tag.name)
+    
+    update_tenants([25], latest_central_tag)
+    
+    github.close()
 
