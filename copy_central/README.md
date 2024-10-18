@@ -13,6 +13,6 @@ Note: It also deletes target pubspec.lock file in order to reduce the chances of
 
 ## Run
 
-* `dart run copy_central/bin/copy_central.dart`
+* `dart run bin/copy_central.dart`
 
 Note: Script is supposed to be run from `copy_central` folder. If you're running it from a different location, please change the paths in `copy_central/bin/run_download_central_pubspec.sh` and `copy_central/bin/env.py`
