@@ -3,7 +3,7 @@ from github import Github
 from github import Auth
 import github.Tag as Tag
 
-from env import Env
+from update_hostapp.env import Env
 
 def get_latest_central_version():
     '''
