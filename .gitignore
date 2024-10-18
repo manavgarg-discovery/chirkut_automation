@@ -1,0 +1,14 @@
+__pycache__/
+bin/
+include/
+lib/
+env.py
+pyvenv.cfg
+copy_central_dependencies.py
+.DS_Store
+
+copy_central/bin/central_pubspec.yaml
+copy_central/bin/env.dart
+copy_central/bin/env.py
+
+update_hostapp/env.py
