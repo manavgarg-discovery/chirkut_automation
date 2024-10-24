@@ -1,0 +1,7 @@
+environments:
+    mdev:
+      url: "https://localhost:8200"
+      path: "whatever path you give in READ command"
+
+username: "<username>"
+password: "<password>"
