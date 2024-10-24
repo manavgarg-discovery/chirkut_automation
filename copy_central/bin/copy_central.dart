@@ -38,11 +38,27 @@ void main(List<String> arguments) {
     }
   }
 
+  // sometimes our dependencies are only present as override in the central pubspec
+  for (var key in destinationYaml["dependencies"].keys) {
+    if (centralYaml["dependency_overrides"].containsKey(key)) {
+      destinationYamlEditor.update(
+          ["dependencies", key], centralYaml["dependency_overrides"][key]);
+    }
+  }
+
   // update dev_dependencies
   for (var key in destinationYaml["dev_dependencies"].keys) {
     if (centralYaml["dev_dependencies"].containsKey(key)) {
       destinationYamlEditor.update(
           ["dev_dependencies", key], centralYaml["dev_dependencies"][key]);
+    }
+  }
+
+  // some times your override dependency is an acutal dependency in the central pubspec
+  for (var key in destinationYaml["dependency_overrides"].keys) {
+    if (centralYaml["dependencies"].containsKey(key)) {
+      destinationYamlEditor.update(
+          ["dependency_overrides", key], centralYaml["dependencies"][key]);
     }
   }
 
