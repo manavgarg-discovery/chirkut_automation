@@ -12,3 +12,5 @@ copy_central/bin/env.dart
 copy_central/bin/env.py
 
 update_hostapp/env.py
+
+auto_db_cred/config.yaml
