@@ -1,5 +1,9 @@
 import hvac as hvac
 import yaml
+import warnings 
+
+# to suppress warnings from SSL verification while logging in
+warnings.filterwarnings("ignore")
 
 config = yaml.safe_load(open("config.yaml"))
 
