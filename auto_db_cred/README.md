@@ -5,3 +5,4 @@ Automates credential creation for multiple environments
 * install python3 - anything beyond 3.4 should work fine
 * `pip install hvac`
 * `pip install "hvac[parser]"`
+* `pip install pyyaml`
